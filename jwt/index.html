@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <meta name="author" content="SliverHorn">
+        <link rel="canonical" href="https://sliverhorn.github.io/jwt/">
+        <link rel="shortcut icon" href="../img/favicon.ico">
+
+        <title>JWT详解 - gf-vue-admin在线文档</title>
+
+        <link href="../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../css/font-awesome.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="../css/highlight.min.css">
+        <link href="../css/base.css" rel="stylesheet">
+
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+
+    </head>
+
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+            <!-- Main title -->
+            <a class="navbar-brand" href="..">
+            
+            gf-vue-admin在线文档
+            </a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+            <!-- Main navigation -->
+            <ul class="nav navbar-nav">
+            
+            
+            
+                
+                <li >
+                    <a href="..">
+                      简介
+                    </a>
+                </li>
+                
+            
+            
+            
+            
+            
+                
+                <li >
+                    <a href="../Introduction/">
+                      介绍
+                    </a>
+                </li>
+                
+            
+            
+            
+            
+            
+                
+                <li >
+                    <a href="../Manual/">
+                      小白说明书
+                    </a>
+                </li>
+                
+            
+            
+            
+            
+            
+                
+                <li >
+                    <a href="../Manual/directory/">
+                      目录结构
+                    </a>
+                </li>
+                
+            
+            
+            
+            
+            
+                
+                <li >
+                    <a href="../Manual/config/">
+                      配置文件
+                    </a>
+                </li>
+                
+            
+            
+            
+            
+            
+                
+                <li class="active">
+                    <a href="./">
+                      JWT详解
+                    </a>
+                </li>
+                
+            
+            
+            
+            
+            
+                
+                <li >
+                    <a href="english/">
+                      JWT详解(ENGLISH)
+                    </a>
+                </li>
+                
+            
+            
+            
+            
+            
+                
+                <li >
+                    <a href="../about/">
+                      About
+                    </a>
+                </li>
+                
+            
+            
+            
+            </ul>
+
+            <!-- Search, Navigation and Repo links -->
+            <ul class="nav navbar-nav navbar-right">
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+              
+                
+                <li>
+                    <a href="https://github.com/SliverHorn/gf-vue-admin-doc/">
+                        
+                            <i class="fa fa-code-fork"></i>
+                        
+                        gf-vue-admin-doc
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+        <div class="container">
+            <div class="col-md-3">
+<div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+    
+        <li class="main active"><a href="#json-web-token">Json Web Token</a></li>
+        
+    
+        <li class="main "><a href="#1simple-configuration">1.Simple configuration</a></li>
+        
+    
+        <li class="main "><a href="#2">2. 回调函数配置</a></li>
+        
+            <li><a href="#21-authenticator">2.1 Authenticator</a></li>
+        
+            <li><a href="#22-authorizator">2.2 Authorizator</a></li>
+        
+            <li><a href="#23-payloadfunc">2.3 PayloadFunc</a></li>
+        
+            <li><a href="#24-unauthorized">2.4 Unauthorized</a></li>
+        
+            <li><a href="#25-loginresponse">2.5 LoginResponse</a></li>
+        
+            <li><a href="#26-refreshresponse">2.6 RefreshResponse</a></li>
+        
+            <li><a href="#27-identityhandler">2.7 IdentityHandler</a></li>
+        
+    
+        <li class="main "><a href="#3">3.示例代码</a></li>
+        
+    
+    </ul>
+</div>
+</div>
+            <div class="col-md-9" role="main">
+
+<h2 id="json-web-token">Json Web Token</h2>
+<h2 id="1simple-configuration">1.Simple configuration</h2>
+<table>
+<thead>
+<tr>
+<th align="left">Name</th>
+<th>Type</th>
+<th align="left">Example</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Realm</td>
+<td>string</td>
+<td align="left">"test zhou"</td>
+<td align="left">显示给用户的领域名称,必须的</td>
+</tr>
+<tr>
+<td align="left">SigningAlgorithm</td>
+<td>string</td>
+<td align="left">"HS256"</td>
+<td align="left">签名算法-可能的值为HS256，HS384，HS512，可选，默认值为HS256。</td>
+</tr>
+<tr>
+<td align="left">Key</td>
+<td>[]byte</td>
+<td align="left">[]byte("secret key")</td>
+<td align="left">用于签名的密钥,必须的.</td>
+</tr>
+<tr>
+<td align="left">Timeout</td>
+<td>time.Duration</td>
+<td align="left">time.Minute * 5</td>
+<td align="left">jwt令牌有效的持续时间。可选，默认为一小时。</td>
+</tr>
+<tr>
+<td align="left">MaxRefresh</td>
+<td>time.Duration</td>
+<td align="left">time.Minute * 5</td>
+<td align="left">该字段允许客户端刷新令牌，直到MaxRefresh通过。<br/>请注意，客户端可以在MaxRefresh的最后时刻刷新其令牌。<br/>这意味着令牌的最大有效时间跨度为TokenTime + MaxRefresh。<br/>可选，默认为0，表示不可刷新。</td>
+</tr>
+<tr>
+<td align="left">IdentityKey</td>
+<td>string</td>
+<td align="left">"id"</td>
+<td align="left">设置身份密钥</td>
+</tr>
+<tr>
+<td align="left">TokenLookup</td>
+<td>string</td>
+<td align="left">"header: Authorization, query: token, cookie: jwt"</td>
+<td align="left">TokenLookup是"<source>:<name>"形式的字符串，用于从请求中提取令牌,可选的。<br/>默认值"header:Authorization". <br/>可能的值：<br />- "header:<name>"<br />- "query:<name>" <br />- "cookie:<name>"</td>
+</tr>
+<tr>
+<td align="left">TokenHeadName</td>
+<td>string</td>
+<td align="left">"Bearer"</td>
+<td align="left">TokenHeadName是标题中的字符串。默认值为"Bearer"</td>
+</tr>
+<tr>
+<td align="left">PrivKeyFile</td>
+<td>string</td>
+<td align="left"></td>
+<td align="left">非对称算法的私钥文件</td>
+</tr>
+<tr>
+<td align="left">PubKeyFile</td>
+<td>string</td>
+<td align="left"></td>
+<td align="left">非对称算法的公钥文件</td>
+</tr>
+<tr>
+<td align="left">SendCookie</td>
+<td>bool</td>
+<td align="left"></td>
+<td align="left">(可选)将令牌作为Cookie返回</td>
+</tr>
+<tr>
+<td align="left">SecureCookie</td>
+<td>bool</td>
+<td align="left"></td>
+<td align="left">允许不安全的Cookie通过HTTP进行开发</td>
+</tr>
+<tr>
+<td align="left">CookieHTTPOnly</td>
+<td>bool</td>
+<td align="left"></td>
+<td align="left">允许访问客户端的Cookie进行开发</td>
+</tr>
+<tr>
+<td align="left">CookieDomain</td>
+<td>string</td>
+<td align="left"></td>
+<td align="left">允许更改Cookie域以进行开发</td>
+</tr>
+<tr>
+<td align="left">SendAuthorization</td>
+<td>bool</td>
+<td align="left"></td>
+<td align="left">SendAuthorization允许为每个请求返回授权标头</td>
+</tr>
+<tr>
+<td align="left">DisabledAbort</td>
+<td>bool</td>
+<td align="left"></td>
+<td align="left">禁用上下文的abort()</td>
+</tr>
+<tr>
+<td align="left">CookieName</td>
+<td>string</td>
+<td align="left"></td>
+<td align="left">CookieName允许更改Cookie名称以进行开发</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th align="center">配置名</th>
+<th>类型</th>
+<th align="center">示例</th>
+<th align="center">中文描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">Realm</td>
+<td>string</td>
+<td align="center">"test zhou"</td>
+<td align="center">要显示给用户的领域名称,必须传递的参数</td>
+</tr>
+<tr>
+<td align="center">SigningAlgorithm</td>
+<td>string</td>
+<td align="center"></td>
+<td align="center">签名算法-可能的值为HS256、HS384、HS512，可选，默认值为HS256</td>
+</tr>
+<tr>
+<td align="center">Key</td>
+<td>[]byte</td>
+<td align="center">[]byte("secret key")</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">Timeout</td>
+<td>time.Duration</td>
+<td align="center">time.Minute * 5</td>
+<td align="center">token过期时间</td>
+</tr>
+<tr>
+<td align="center">MaxRefresh</td>
+<td>time.Duration</td>
+<td align="center">time.Minute * 5</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">IdentityKey</td>
+<td>string</td>
+<td align="center">"id"</td>
+<td align="center">身份验证的key值</td>
+</tr>
+<tr>
+<td align="center">TokenLookup</td>
+<td>string</td>
+<td align="center">"header: Authorization, query: token, cookie: jwt"</td>
+<td align="center">token检索模式，用于提取token-&gt; Authorization</td>
+</tr>
+<tr>
+<td align="center">TokenHeadName</td>
+<td>string</td>
+<td align="center">"Bearer"</td>
+<td align="center">token在请求头时的名称，默认值为Bearer.客户端在header中传入Authorization 对一个值是Bearer + 空格 + token</td>
+</tr>
+<tr>
+<td align="center">TimeFunc</td>
+<td>func() time.Time</td>
+<td align="center">time.Now</td>
+<td align="center">测试或服务器在其他时区可设置该属性</td>
+</tr>
+<tr>
+<td align="center">Authenticator</td>
+<td>func(r *ghttp.Request) (interface{}, error)</td>
+<td align="center">Authenticator</td>
+<td align="center">根据登录信息对用户进行身份验证的回调函数</td>
+</tr>
+<tr>
+<td align="center">Authorizator</td>
+<td>func(data interface{}, r *ghttp.Request) bool</td>
+<td align="center"></td>
+<td align="center">回调函数，该函数应执行已验证用户的授权。仅在身份验证成功后调用。成功时必须返回true，失败时返回false。可选，默认为成功</td>
+</tr>
+<tr>
+<td align="center">LoginResponse</td>
+<td></td>
+<td align="center">LoginResponse</td>
+<td align="center">完成登录后返回的信息，用户可自定义返回数据，默认返回</td>
+</tr>
+<tr>
+<td align="center">RefreshResponse</td>
+<td></td>
+<td align="center">auth.RefreshResponse</td>
+<td align="center">刷新token后返回的信息，用户可自定义返回数据，默认返回</td>
+</tr>
+<tr>
+<td align="center">Unauthorized</td>
+<td></td>
+<td align="center">auth.Unauthorized</td>
+<td align="center">处理不进行授权的逻辑</td>
+</tr>
+<tr>
+<td align="center">IdentityHandler</td>
+<td></td>
+<td align="center">auth.IdentityHandler</td>
+<td align="center">解析并设置用户身份信息</td>
+</tr>
+<tr>
+<td align="center">PayloadFunc</td>
+<td></td>
+<td align="center">auth.PayloadFunc</td>
+<td align="center">登录期间的回调的函数</td>
+</tr>
+</tbody>
+</table>
+<h2 id="2">2. 回调函数配置</h2>
+<h3 id="21-authenticator">2.1 Authenticator</h3>
+<ul>
+<li>Type:==func(r *ghttp.Request) (interface{}, error)==</li>
+<li>Description: <ul>
+<li>根据登录信息对用户进行身份验证的回调函数。</li>
+<li>必须返回用户数据作为用户标识符，它将存储在索赔数组中。必须的。</li>
+<li>检查错误(e)以确定适当的错误信息.</li>
+</ul>
+</li>
+</ul>
+<h3 id="22-authorizator">2.2 Authorizator</h3>
+<ul>
+<li>Type:==func(data interface{}, r *ghttp.Request) bool==</li>
+<li>Description: <ul>
+<li>回调函数，该函数应执行经过身份验证的用户的授权。</li>
+<li>仅在身份验证成功后调用. 成功时必须返回true，失败时必须返回false.</li>
+<li>可选，默认success.</li>
+</ul>
+</li>
+</ul>
+<h3 id="23-payloadfunc">2.3 PayloadFunc</h3>
+<ul>
+<li>Type:==func(data interface{}) MapClaims==</li>
+<li>Description: <ul>
+<li>在登录期间将调用的回调函数。</li>
+<li>使用此功能可以向网络令牌添加其他有效负载数据。</li>
+<li>然后在请求期间通过c.Get(" JWT_PAYLOAD")使数据可用。</li>
+<li>请注意，有效负载未加密。</li>
+<li>jwt.io上提到的属性不能用作地图的键。</li>
+<li>可选，默认情况下不会设置其他数据。</li>
+</ul>
+</li>
+</ul>
+<h3 id="24-unauthorized">2.4 Unauthorized</h3>
+<ul>
+<li>Type:==func(*ghttp.Request, int, string)==</li>
+<li>Description: <ul>
+<li>用户可以定义自己的未经授权的功能。</li>
+</ul>
+</li>
+</ul>
+<h3 id="25-loginresponse">2.5 LoginResponse</h3>
+<ul>
+<li>Type:==func(*ghttp.Request, int, string, time.Time)==</li>
+<li>Description: <ul>
+<li>用户可以定义自己的LoginResponse函数。</li>
+</ul>
+</li>
+</ul>
+<h3 id="26-refreshresponse">2.6 RefreshResponse</h3>
+<ul>
+<li>Type:==func(*ghttp.Request, int, string, time.Time)==</li>
+<li>Description: <ul>
+<li>用户可以定义自己的 RefreshResponse 函数.</li>
+</ul>
+</li>
+</ul>
+<h3 id="27-identityhandler">2.7 IdentityHandler</h3>
+<ul>
+<li>Type:==func(*ghttp.Request) interface{}==</li>
+<li>Description: <ul>
+<li>设置身份处理程序功能</li>
+</ul>
+</li>
+</ul>
+<h2 id="3">3.示例代码</h2>
+<pre><code class="go">// 示例代码
+package v1
+
+import (
+    jwt &quot;github.com/gogf/gf-jwt&quot;
+    &quot;github.com/gogf/gf/frame/g&quot;
+    &quot;github.com/gogf/gf/net/ghttp&quot;
+    &quot;github.com/gogf/gf/os/glog&quot;
+    &quot;github.com/gogf/gf/util/gvalid&quot;
+    &quot;net/http&quot;
+    &quot;time&quot;
+)
+
+var (
+    // 底层JWT中间件.
+    GfJWTMiddleware *jwt.GfJWTMiddleware
+    // 自定义登录参数验证规则.
+    ValidationRules = g.Map {
+        &quot;username&quot;: &quot;required&quot;,
+        &quot;password&quot;: &quot;required&quot;,
+    }
+)
+
+// 初始化函数，
+// 重写此函数以自定义您自己的JWT设置。
+func init() {
+    authMiddleware, err := jwt.New(&amp;jwt.GfJWTMiddleware{
+        Realm:           &quot;test zone&quot;,
+        Key:             []byte(&quot;secret key&quot;),
+        Timeout:         time.Minute * 5,
+        MaxRefresh:      time.Minute * 5,
+        IdentityKey:     &quot;id&quot;,
+        TokenLookup:     &quot;header: Authorization, query: token, cookie: jwt&quot;,
+        TokenHeadName:   &quot;Bearer&quot;,
+        TimeFunc:        time.Now,
+        Authenticator:   Authenticator,
+        LoginResponse:   LoginResponse,
+        RefreshResponse: RefreshResponse,
+        Unauthorized:    Unauthorized,
+        IdentityHandler: IdentityHandler,
+        PayloadFunc:     PayloadFunc,
+    })
+    if err != nil {
+        glog.Fatal(&quot;JWT Error:&quot; + err.Error())
+    }
+    GfJWTMiddleware = authMiddleware
+}
+
+// PayloadFunc 是将在登录期间调用的回调函数。
+// 使用此函数可以向webtoken添加额外的有效负载数据。
+// 然后，在通过c.Get（“JWT_PAYLOAD”）请求时，可以使用这些数据。
+// 请注意，有效负载没有加密。
+// 上面提到的属性智威汤逊不能用作地图的键。
+// 可选，默认情况下不设置其他数据。
+func PayloadFunc(data interface{}) jwt.MapClaims {
+    claims := jwt.MapClaims{}
+    params := data.(map[string]interface{})
+    if len(params) &gt; 0 {
+        for k, v := range params {
+            claims[k] = v
+        }
+    }
+    return claims
+}
+
+// IdentityHandler 设置JWT的标识。
+func IdentityHandler(r *ghttp.Request) interface{} {
+    claims := jwt.ExtractClaims(r)
+    return claims[&quot;id&quot;]
+}
+
+// Unauthorized 用于定义自定义的未授权回调函数。
+func Unauthorized(r *ghttp.Request, code int, message string) {
+    r.Response.WriteJson(g.Map{
+        &quot;code&quot;: code,
+        &quot;msg&quot;:  message,
+    })
+    r.ExitAll()
+}
+
+// LoginResponse 用于定义自定义登录成功回调函数。
+func LoginResponse(r *ghttp.Request, code int, token string, expire time.Time) {
+    r.Response.WriteJson(g.Map{
+        &quot;code&quot;:   http.StatusOK,
+        &quot;token&quot;:  token,
+        &quot;expire&quot;: expire.Format(time.RFC3339),
+    })
+    r.ExitAll()
+}
+
+// RefreshResponse 用于获取新令牌，无论当前令牌是否过期。
+func RefreshResponse(r *ghttp.Request, code int, token string, expire time.Time) {
+    r.Response.WriteJson(g.Map{
+        &quot;code&quot;:   http.StatusOK,
+        &quot;token&quot;:  token,
+        &quot;expire&quot;: expire.Format(time.RFC3339),
+    })
+    r.ExitAll()
+}
+
+
+// Authenticator 用于验证登录参数。
+// 它必须返回用户数据作为用户标识符，并将其存储在Claim Array中。
+// 检查错误（e），以确定适当的错误消息。
+func Authenticator(r *ghttp.Request) (interface{}, error) {
+    data := r.GetMap()
+    if e := gvalid.CheckMap(data, ValidationRules); e != nil {
+        return &quot;&quot;, jwt.ErrFailedAuthentication
+    }
+    if data[&quot;username&quot;] == &quot;admin&quot; &amp;&amp; data[&quot;password&quot;] == &quot;admin&quot; {
+        return g.Map {
+            &quot;username&quot;: data[&quot;username&quot;],
+            &quot;id&quot;:       data[&quot;username&quot;],
+        }, nil
+    }
+    return nil, jwt.ErrFailedAuthentication
+}
+
+</code></pre></div>
+        </div>
+
+    <footer class="col-md-12">
+        <hr>
+        
+        <center>Copyright &copy; 2020 - 2020 SliverHorn</center>
+        
+    </footer>
+
+        <script src="../js/jquery.min.js"></script>
+        <script src="../js/bootstrap.min.js"></script>
+        <script src="../js/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script>
+        <script src="../js/base.js"></script>
+        <script src="../search/main.js"></script>
+    </body>
+</html>
