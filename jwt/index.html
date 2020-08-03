@@ -127,8 +127,32 @@
             
                 
                 <li >
-                    <a href="english/">
-                      JWT详解(ENGLISH)
+                    <a href="https://www.yuque.com/flipped-aurora/">
+                      团队知识库
+                    </a>
+                </li>
+                
+            
+            
+            
+            
+            
+                
+                <li >
+                    <a href="https://space.bilibili.com/322210472">
+                      视频站
+                    </a>
+                </li>
+                
+            
+            
+            
+            
+            
+                
+                <li >
+                    <a href="https://github.com/flipped-aurora">
+                      GitHub
                     </a>
                 </li>
                 
@@ -151,6 +175,10 @@
 
             <!-- Search, Navigation and Repo links -->
             <ul class="nav navbar-nav navbar-right">
+            
+            
+            
+            
             
             
             
@@ -192,27 +220,20 @@
         <li class="main active"><a href="#json-web-token">Json Web Token</a></li>
         
     
-        <li class="main "><a href="#1simple-configuration">1.Simple configuration</a></li>
+        <li class="main "><a href="#1">1.配置</a></li>
+        
+            <li><a href="#2">2. 回调函数配置</a></li>
+        
+            <li><a href="#3">3.示例代码</a></li>
         
     
-        <li class="main "><a href="#2">2. 回调函数配置</a></li>
+        <li class="main "><a href="#json-web-token-in-english">Json Web Token In English</a></li>
         
-            <li><a href="#21-authenticator">2.1 Authenticator</a></li>
+            <li><a href="#1simple-configuration">1.Simple configuration</a></li>
         
-            <li><a href="#22-authorizator">2.2 Authorizator</a></li>
+            <li><a href="#2-callback-function">2. Callback function</a></li>
         
-            <li><a href="#23-payloadfunc">2.3 PayloadFunc</a></li>
-        
-            <li><a href="#24-unauthorized">2.4 Unauthorized</a></li>
-        
-            <li><a href="#25-loginresponse">2.5 LoginResponse</a></li>
-        
-            <li><a href="#26-refreshresponse">2.6 RefreshResponse</a></li>
-        
-            <li><a href="#27-identityhandler">2.7 IdentityHandler</a></li>
-        
-    
-        <li class="main "><a href="#3">3.示例代码</a></li>
+            <li><a href="#3-sample-code">3. Sample code</a></li>
         
     
     </ul>
@@ -220,8 +241,8 @@
 </div>
             <div class="col-md-9" role="main">
 
-<h2 id="json-web-token">Json Web Token</h2>
-<h2 id="1simple-configuration">1.Simple configuration</h2>
+<h1 id="json-web-token">Json Web Token</h1>
+<h1 id="1">1.配置</h1>
 <table>
 <thead>
 <tr>
@@ -615,6 +636,308 @@ func RefreshResponse(r *ghttp.Request, code int, token string, expire time.Time)
 // Authenticator 用于验证登录参数。
 // 它必须返回用户数据作为用户标识符，并将其存储在Claim Array中。
 // 检查错误（e），以确定适当的错误消息。
+func Authenticator(r *ghttp.Request) (interface{}, error) {
+    data := r.GetMap()
+    if e := gvalid.CheckMap(data, ValidationRules); e != nil {
+        return &quot;&quot;, jwt.ErrFailedAuthentication
+    }
+    if data[&quot;username&quot;] == &quot;admin&quot; &amp;&amp; data[&quot;password&quot;] == &quot;admin&quot; {
+        return g.Map {
+            &quot;username&quot;: data[&quot;username&quot;],
+            &quot;id&quot;:       data[&quot;username&quot;],
+        }, nil
+    }
+    return nil, jwt.ErrFailedAuthentication
+}
+
+</code></pre>
+
+<h1 id="json-web-token-in-english">Json Web Token In English</h1>
+<h2 id="1simple-configuration">1.Simple configuration</h2>
+<table>
+<thead>
+<tr>
+<th align="left">Name</th>
+<th>Type</th>
+<th align="left">Example</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Realm</td>
+<td>string</td>
+<td align="left">"test zhou"</td>
+<td align="left">Realm name to display to the user. Required.</td>
+</tr>
+<tr>
+<td align="left">SigningAlgorithm</td>
+<td>string</td>
+<td align="left">"HS256"</td>
+<td align="left">signing algorithm - possible values are HS256, HS384, HS512 ,Optional, default is HS256.</td>
+</tr>
+<tr>
+<td align="left">Key</td>
+<td>[]byte</td>
+<td align="left">[]byte("secret key")</td>
+<td align="left">Secret key used for signing. Required.</td>
+</tr>
+<tr>
+<td align="left">Timeout</td>
+<td>time.Duration</td>
+<td align="left">time.Minute * 5</td>
+<td align="left">Duration that a jwt token is valid. Optional, defaults to one hour.</td>
+</tr>
+<tr>
+<td align="left">MaxRefresh</td>
+<td>time.Duration</td>
+<td align="left">time.Minute * 5</td>
+<td align="left">This field allows clients to refresh their token until MaxRefresh has passed. Note that clients can refresh their token in the last moment of MaxRefresh. This means that the maximum validity timespan for a token is TokenTime + MaxRefresh. Optional, defaults to 0 meaning not refreshable.</td>
+</tr>
+<tr>
+<td align="left">IdentityKey</td>
+<td>string</td>
+<td align="left">"id"</td>
+<td align="left">Set the identity key</td>
+</tr>
+<tr>
+<td align="left">TokenLookup</td>
+<td>string</td>
+<td align="left">"header: Authorization, query: token, cookie: jwt"</td>
+<td align="left">TokenLookup is a string in the form of "<source>:<name>" that is used to extract token from the request. // Optional. Default value "header:Authorization".  Possible values: <br />"header:<name>" <br />"query:<name>"<br />"cookie:<name>"</td>
+</tr>
+<tr>
+<td align="left">TokenHeadName</td>
+<td>string</td>
+<td align="left">"Bearer"</td>
+<td align="left">TokenHeadName is a string in the header. Default value is "Bearer"</td>
+</tr>
+<tr>
+<td align="left">PrivKeyFile</td>
+<td>string</td>
+<td align="left"></td>
+<td align="left">Private key file for asymmetric algorithms</td>
+</tr>
+<tr>
+<td align="left">PubKeyFile</td>
+<td>string</td>
+<td align="left"></td>
+<td align="left">Public key file for asymmetric algorithms</td>
+</tr>
+<tr>
+<td align="left">SendCookie</td>
+<td>bool</td>
+<td align="left"></td>
+<td align="left">Optionally return the token as a cookie</td>
+</tr>
+<tr>
+<td align="left">SecureCookie</td>
+<td>bool</td>
+<td align="left"></td>
+<td align="left">Allow insecure cookies for development over http</td>
+</tr>
+<tr>
+<td align="left">CookieHTTPOnly</td>
+<td>bool</td>
+<td align="left"></td>
+<td align="left">Allow cookies to be accessed client side for development</td>
+</tr>
+<tr>
+<td align="left">CookieDomain</td>
+<td>string</td>
+<td align="left"></td>
+<td align="left">Allow cookie domain change for development</td>
+</tr>
+<tr>
+<td align="left">SendAuthorization</td>
+<td>bool</td>
+<td align="left"></td>
+<td align="left">SendAuthorization allow return authorization header for every request</td>
+</tr>
+<tr>
+<td align="left">DisabledAbort</td>
+<td>bool</td>
+<td align="left"></td>
+<td align="left">Disable abort() of context.</td>
+</tr>
+<tr>
+<td align="left">CookieName</td>
+<td>string</td>
+<td align="left"></td>
+<td align="left">CookieName allow cookie name change for development</td>
+</tr>
+</tbody>
+</table>
+<h2 id="2-callback-function">2. Callback function</h2>
+<h3 id="21-authenticator_1">2.1 Authenticator</h3>
+<ul>
+<li>Type:==func(r *ghttp.Request) (interface{}, error)==</li>
+<li>Description: <ul>
+<li>Callback function that should perform the authentication of the user based on login info.</li>
+<li>Must return user data as user identifier, it will be stored in Claim Array. Required.</li>
+<li>Check error (e) to determine the appropriate error message.</li>
+</ul>
+</li>
+</ul>
+<h3 id="22-authorizator_1">2.2 Authorizator</h3>
+<ul>
+<li>Type:==func(data interface{}, r *ghttp.Request) bool==</li>
+<li>Description: <ul>
+<li>Callback function that should perform the authorization of the authenticated user. </li>
+<li>Called only after an authentication success. Must return true on success, false on failure.</li>
+<li>Optional, default to success.</li>
+</ul>
+</li>
+<li></li>
+</ul>
+<h3 id="23-payloadfunc_1">2.3 PayloadFunc</h3>
+<ul>
+<li>Type:==func(data interface{}) MapClaims==</li>
+<li>Description: <ul>
+<li>Callback function that will be called during login.</li>
+<li>Using this function it is possible to add additional payload data to the webtoken.</li>
+<li>The data is then made available during requests via c.Get("JWT_PAYLOAD").</li>
+<li>Note that the payload is not encrypted.</li>
+<li>The attributes mentioned on jwt.io can't be used as keys for the map.</li>
+<li>Optional, by default no additional data will be set.</li>
+</ul>
+</li>
+</ul>
+<h3 id="24-unauthorized_1">2.4 Unauthorized</h3>
+<ul>
+<li>Type:==func(*ghttp.Request, int, string)==</li>
+<li>Description: <ul>
+<li>User can define own Unauthorized func.</li>
+</ul>
+</li>
+</ul>
+<h3 id="25-loginresponse_1">2.5 LoginResponse</h3>
+<ul>
+<li>Type:==func(*ghttp.Request, int, string, time.Time)==</li>
+<li>Description: <ul>
+<li>User can define own LoginResponse func.</li>
+</ul>
+</li>
+</ul>
+<h3 id="26-refreshresponse_1">2.6 RefreshResponse</h3>
+<ul>
+<li>Type:==func(*ghttp.Request, int, string, time.Time)==</li>
+<li>Description: <ul>
+<li>User can define own RefreshResponse func.</li>
+</ul>
+</li>
+</ul>
+<h3 id="27-identityhandler_1">2.7 IdentityHandler</h3>
+<ul>
+<li>Type:==func(*ghttp.Request) interface{}==</li>
+<li>Description: <ul>
+<li>Set the identity handler function</li>
+</ul>
+</li>
+</ul>
+<h2 id="3-sample-code">3. Sample code</h2>
+<pre><code class="go">package auth
+
+import (
+    jwt &quot;github.com/gogf/gf-jwt&quot;
+    &quot;github.com/gogf/gf/frame/g&quot;
+    &quot;github.com/gogf/gf/net/ghttp&quot;
+    &quot;github.com/gogf/gf/os/glog&quot;
+    &quot;github.com/gogf/gf/util/gvalid&quot;
+    &quot;net/http&quot;
+    &quot;time&quot;
+)
+
+var (
+    // The underlying JWT middleware.
+    GfJWTMiddleware *jwt.GfJWTMiddleware
+    // Customized login parameter validation rules.
+    ValidationRules = g.Map {
+        &quot;username&quot;: &quot;required&quot;,
+        &quot;password&quot;: &quot;required&quot;,
+    }
+)
+
+// Initialization function,
+// rewrite this function to customized your own JWT settings.
+func init() {
+    authMiddleware, err := jwt.New(&amp;jwt.GfJWTMiddleware{
+        Realm:           &quot;test zone&quot;,
+        Key:             []byte(&quot;secret key&quot;),
+        Timeout:         time.Minute * 5,
+        MaxRefresh:      time.Minute * 5,
+        IdentityKey:     &quot;id&quot;,
+        TokenLookup:     &quot;header: Authorization, query: token, cookie: jwt&quot;,
+        TokenHeadName:   &quot;Bearer&quot;,
+        TimeFunc:        time.Now,
+        Authenticator:   Authenticator,
+        LoginResponse:   LoginResponse,
+        RefreshResponse: RefreshResponse,
+        Unauthorized:    Unauthorized,
+        IdentityHandler: IdentityHandler,
+        PayloadFunc:     PayloadFunc,
+    })
+    if err != nil {
+        glog.Fatal(&quot;JWT Error:&quot; + err.Error())
+    }
+    GfJWTMiddleware = authMiddleware
+}
+
+// PayloadFunc is a callback function that will be called during login.
+// Using this function it is possible to add additional payload data to the webtoken.
+// The data is then made available during requests via c.Get(&quot;JWT_PAYLOAD&quot;).
+// Note that the payload is not encrypted.
+// The attributes mentioned on jwt.io can't be used as keys for the map.
+// Optional, by default no additional data will be set.
+func PayloadFunc(data interface{}) jwt.MapClaims {
+    claims := jwt.MapClaims{}
+    params := data.(map[string]interface{})
+    if len(params) &gt; 0 {
+        for k, v := range params {
+            claims[k] = v
+        }
+    }
+    return claims
+}
+
+// IdentityHandler sets the identity for JWT.
+func IdentityHandler(r *ghttp.Request) interface{} {
+    claims := jwt.ExtractClaims(r)
+    return claims[&quot;id&quot;]
+}
+
+// Unauthorized is used to define customized Unauthorized callback function.
+func Unauthorized(r *ghttp.Request, code int, message string) {
+    r.Response.WriteJson(g.Map{
+        &quot;code&quot;: code,
+        &quot;msg&quot;:  message,
+    })
+    r.ExitAll()
+}
+
+// LoginResponse is used to define customized login-successful callback function.
+func LoginResponse(r *ghttp.Request, code int, token string, expire time.Time) {
+    r.Response.WriteJson(g.Map{
+        &quot;code&quot;:   http.StatusOK,
+        &quot;token&quot;:  token,
+        &quot;expire&quot;: expire.Format(time.RFC3339),
+    })
+    r.ExitAll()
+}
+
+// RefreshResponse is used to get a new token no matter current token is expired or not.
+func RefreshResponse(r *ghttp.Request, code int, token string, expire time.Time) {
+    r.Response.WriteJson(g.Map{
+        &quot;code&quot;:   http.StatusOK,
+        &quot;token&quot;:  token,
+        &quot;expire&quot;: expire.Format(time.RFC3339),
+    })
+    r.ExitAll()
+}
+
+// Authenticator is used to validate login parameters.
+// It must return user data as user identifier, it will be stored in Claim Array.
+// Check error (e) to determine the appropriate error message.
 func Authenticator(r *ghttp.Request) (interface{}, error) {
     data := r.GetMap()
     if e := gvalid.CheckMap(data, ValidationRules); e != nil {
