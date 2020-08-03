@@ -166,15 +166,25 @@
         
             <li><a href="#1">1. 目录结构</a></li>
         
-            <li><a href="#2">2. 实战操作</a></li>
+            <li><a href="#2">2. 实战基础操作</a></li>
         
             <li><a href="#3">3.前端项目</a></li>
         
             <li><a href="#4">4.后端项目</a></li>
         
-            <li><a href="#5">5.自动化代码生成(自主设计)</a></li>
+            <li><a href="#5">5.自动代码生成(数据库表)</a></li>
         
-            <li><a href="#6">6.自动代码生成(数据库表)</a></li>
+            <li><a href="#6">6. 注册路由</a></li>
+        
+            <li><a href="#7">7. 配置目录菜单</a></li>
+        
+            <li><a href="#8">8. 配置后端接口</a></li>
+        
+            <li><a href="#9">9. 配置角色权限</a></li>
+        
+            <li><a href="#10">10 完善新增表单弹窗/页面</a></li>
+        
+            <li><a href="#finish">Finish</a></li>
         
     
     </ul>
@@ -185,7 +195,7 @@
 
 <h1 id="gfva">GFVA小白说明书</h1>
 <h2 id="1">1. <a href="./directory/">目录结构</a></h2>
-<h2 id="2">2. 实战操作</h2>
+<h2 id="2">2. 实战基础操作</h2>
 <blockquote>
 <p>本项目的编程环境</p>
 </blockquote>
@@ -270,46 +280,7 @@ go env -w GOPROXY=https://goproxy.io,direct
 <p><img alt="image-20200803150436347" src="../Images/index/image-20200803150436347.png" /></p>
 </li>
 </ul>
-<h2 id="5">5.自动化代码生成(自主设计)</h2>
-<p>先自行设计业务基础结构体模型</p>
-<p>点击左侧菜单中的 <strong>系统工具 → 代码生成器</strong> 用来生成相关代码。</p>
-<ul>
-<li>Struct名称：即后台代码中 model 文件夹下的结构体文件中，结构体的名称，首字母大写。</li>
-<li>tableName：数据库中生成的与结构体对应的数据表名。</li>
-<li>Struct简称：用于结构体作为参数时的名称，以及路由 group 名称。这里一般与<strong>Stuct名称</strong>对应，但是首字母小写。</li>
-<li>Struct中文名称：作为自动api描述，也是左侧菜单显示时的默认菜单名。</li>
-<li>文件名称：使用 xxx_xxx 形式命名。生成后端代码时，model下的文件名会用这里的命名。</li>
-<li>自动创建api：选中，如果不选则不会自动创建api表，需要自己去api管理里面手动增加对应路由。</li>
-</ul>
-<p>如上参数填写完成后，就填写好了自动创建代码所需要的基本信息。然后点击 <strong>新增Field</strong> 按钮，为数据表、struct结构体创建字段。</p>
-<ul>
-<li>Field名称：struct结构体中的字段名称，首字母大写</li>
-<li>Field中文名：对应struct结构体tag中的comment字段值，也是数据列表展示表格的表头名称。</li>
-<li>FieldJSON：对应struct结构体tag中的json字段值。在使用struct对象调用某个字段时，使用“对象.json字段值”</li>
-<li>数据库字段名：对应数据库中的字段名称</li>
-<li>数据库字段描述：对应数据库中的列Comment值</li>
-<li>Field数据类型：对应struct结构体中的字段类型</li>
-<li>数据库字段类型：对应生成的数据表中的字段类型</li>
-<li>数据库字段长度：对应生成的数据表中的字段长度</li>
-<li>Field查询条件：用于实现该对象数据列表的条件查询</li>
-</ul>
-<p>创建好所有的field后，点击右下角 <strong>生成代码包</strong> 按钮，会生成并下载一个文件压缩包。解压后会看到里面有个 autoCode 文件夹，autoCode 里的 te 文件夹为自动生成的后端代码，fe文件夹为自动生成的前端代码。</p>
-<ul>
-<li>te文件夹 → 后端代码：<ul>
-<li>api 下的 <code>.go</code> 文件放到server/app/api/v1 下。</li>
-<li>model 下的 <code>.go</code> 文件server/app/model 下。</li>
-<li>request 下的 <code>.go</code> 文件放到后端项目中的 model → request下。</li>
-<li>router 下的 <code>.go</code> 文件放到后端项目中的 router 下。</li>
-<li>service 下的 <code>.go</code> 文件放到后端项目中的 service 下。</li>
-</ul>
-</li>
-<li>fe文件夹 → 前端代码：<ul>
-<li>api 下的 <code>.js</code> 文件放到前端项目中的 src&gt;api 下。</li>
-<li>table 下的 <code>.vue</code> 文件放到前端项目中的 src → view → struct 简称文件夹（自建）下。</li>
-</ul>
-</li>
-</ul>
-<h2 id="6">6.自动代码生成(数据库表)</h2>
+<h2 id="5">5.自动代码生成(数据库表)</h2>
 <ul>
 <li>点击左侧菜单中的<strong>系统工具</strong> &gt;  <strong>代码生成器</strong> ,代码生成器是用来生成CURD代码的。</li>
 <li>点击<code>点这里从现有数据库创建代码</code></li>
@@ -338,7 +309,75 @@ go env -w GOPROXY=https://goproxy.io,direct
 <p>点击后就可以看到左下角或者下载内容里有一个下载好了的gf-vue-admin.zip文件</p>
 </li>
 <li><img alt="image-20200803163108027" src="../Images/index/image-20200803163108027.png" /></li>
-</ul></div>
+</ul>
+<p>解压gf-vue-admin.zip后会看到里面有个 autoCode 文件夹，autoCode 里的 te 文件夹为自动生成的后端代码，fe文件夹为自动生成的前端代码。</p>
+<p><img alt="image-20200803163935377" src="../Images/index/image-20200803163935377.png" /></p>
+<ul>
+<li>te文件夹 → 后端代码：<ul>
+<li>api 下的 <code>.go</code> 文件放到 server/app/api/v1 下。</li>
+<li><code>user(这个文件夹是动态的,具体的是PackageName(文件名称)这个字段)</code> 下的<code>整个文件夹</code>放到server/app/model 下。</li>
+<li>request 下的 <code>.go</code> 文件放到后端项目中的 server/app/api/request下。</li>
+<li>router 下的 <code>.go</code> 文件放到后端项目中的 server/router 下。</li>
+<li>service 下的 <code>.go</code> 文件放到后端项目中的 server/app/service 下。</li>
+</ul>
+</li>
+<li>fe文件夹 → 前端代码：<ul>
+<li>api 下的 <code>.js</code> 文件放到 web/src/api 下。</li>
+<li>table 下的 <code>.vue</code> 文件放到前端项目中的 web/src/api/view/<code>(PackageName(文件名称)自建)</code>下。</li>
+</ul>
+</li>
+</ul>
+<h2 id="6">6. 注册路由</h2>
+<p>打开<code>server/router/router.go</code>文件,在InitializeRouters方法中,自行调用生成autoCode/te/router的<code>.go</code>文件的方法</p>
+<h2 id="7">7. 配置目录菜单</h2>
+<p>进入系统 超级管理员 → 菜单管理 菜单，点击 <strong>新增根菜单</strong> 按钮，配置菜单信息。</p>
+<ul>
+<li>路由name：对应进入列表显示页面时的访问路径</li>
+<li>路由path：选中后边的“添加参数”后才可以输入，对应进入列表显示页面时访问路径后的参数<em>（没用过，目测是酱婶的）</em></li>
+<li>是否隐藏：是否在系统左侧目录菜单显示时，隐藏掉该目录菜单</li>
+<li>父节点Id：该目录菜单的父级目录菜单。这里是自动填充的数据，不需要自己操作</li>
+<li>文件路径：对应前端项目中 /view/struct简称文件夹（自建）/struct简称.vue 文件</li>
+<li>展示名称：该目录菜单显示在系统左侧目录菜单中的名称</li>
+<li>图标：该目录菜单显示在系统左侧目录菜单中的图标</li>
+<li>排序标记：用于调整该目录菜单在系统左侧目录菜单中显示的上下位置<em>（我猜的）</em></li>
+<li>keepAlive：是否使用keepAlive缓存<em>（太菜了，虽然知道干嘛用但是几行字解释不了，如有需要，请自行百度）</em></li>
+</ul>
+<p>以上配置好后，点击 <strong>确定</strong> 按钮，完成菜单配置。</p>
+<h2 id="8">8. 配置后端接口</h2>
+<p>如果是自动生成的代码，这里接口会自动配置好。</p>
+<p>如果是自己写的业务代码，这里需要配置好后端接口。进入系统 超级管理员 → api管理 菜单，点击 <strong>新增api</strong> 按钮，配置接口信息。</p>
+<ul>
+<li>路径：就是接口路径，比如前端项目中 src → api → struct简称.js 每个方法里的 url</li>
+<li>请求：根据接口实际选择即可</li>
+<li>api分组：对应 struct 简称</li>
+<li>api简介：对api的简要说明</li>
+</ul>
+<p>以上配置好后，点击 <strong>确定</strong> 按钮，完成接口配置。</p>
+<h2 id="9">9. 配置角色权限</h2>
+<p>进入系统 超级管理员 → 角色管理 菜单，找到需要设置权限的角色，点击对应的 <strong>设置权限</strong> 按钮，配置角色相关权限。</p>
+<ul>
+<li>角色菜单：勾选该角色可以访问的目录菜单</li>
+<li>角色api：勾选该角色可以访问的接口</li>
+</ul>
+<h2 id="10">10 完善新增表单弹窗/页面</h2>
+<p>我们可以在系统中看到我们所创建的结构体数据列表页面。目前，这个页面已经是可以实现 <strong>删除</strong>、<strong>查询</strong> 功能了，<strong>新增</strong>、<strong>修改</strong> 功能仍然需要我们自己完善一下弹窗表单。</p>
+<p>进入系统 系统工具 → 表单生成器 菜单，根据自己的实际需求，将左侧组件拖拽至中间画布区域，并在右侧设置组件属性。</p>
+<ul>
+<li>组件类型：默认是左侧选中的组件类型，这里还可以再进行调整</li>
+<li>字段名：对应 Step3 中的 <strong>FieldJSON</strong> 字段</li>
+<li>标题：即组件label</li>
+<li>占位提示：。。。就是占位提示</li>
+<li>……：<em>剩下的我都没试，按需自行试用</em></li>
+</ul>
+<p>把所有组件上边几个基本的组件属性填好以后，点击画布上方的 <strong>复制代码</strong> 按钮，会出现一个弹窗，让我们选择 <strong>生成类型</strong> 是 页面 还是 弹窗。我用的时候选的页面，具体内容应该是没差的，这里选择哪个应该不影响我们目前的需求。然后点击 <strong>确定</strong> 按钮，就成功复制到了我们的表单代码。</p>
+<p>接下来，</p>
+<ul>
+<li>随便找个记事本或者地方，把代码复制到里边。</li>
+<li>在复制出来的代码中，取出 <code>&lt;el-form&gt;……&lt;/el-form&gt;</code> 部分代码，覆盖掉前端项目中 src → view → struct 简称文件夹（自建） → struct简称.vue 中 <code>此处请使用表单生成器生成form填充 表单默认绑定 formData 如手动修改过请自行修改key</code> 这句话。</li>
+<li>在复制出来的代码中，把 js 部分<code>data</code>方法里返回的对象复制到前端项目中，上边提及的 .vue 文件的 js 部分 <code>data</code> 方法的 <code>return</code> 对象里。（<em>这里表述有点乱。。但是前端一看代码就明白了。。。）</em></li>
+</ul>
+<h2 id="finish">Finish</h2>
+<p>至此，一个单表基本业务结构体的数据列表显示，单表数据增加、删除、查找、更新功能全部搞定。</p></div>
         </div>
 
     <footer class="col-md-12">
