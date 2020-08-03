@@ -3,9 +3,9 @@
 </div>
 ## 项目组成员
 
-| 蒋 | 尹 | 严 | 杜 | 印 | 宋 | 赖 |  |
-|  :---:  |  :---: | :---: | :---:  |  :---: | :---: | :---: | ----- |
-| <img width="150" src="http://qmplusimg.henrongyi.top/qrjjz.png"> | <img width="150" src="http://qmplusimg.henrongyi.top/qryx.png"> | <img width="150" src="http://qmplusimg.henrongyi.top/qryr.png"> | <img width="150" src="http://qmplusimg.henrongyi.top/qrdjl.png"> | <img width="150" src="http://qmplusimg.henrongyi.top/qrygl.png"> | <img width="150" src="http://qmplusimg.henrongyi.top/qrsong.png"> | <img src="../Images/index/image-20200803170441708.png" alt="image-20200803170441708" style="zoom:17%;" /> |  |
+| 蒋 | 尹 | 严 | 杜 | 印 | 宋 | 赖 | 卢 |
+|  :---:  |  :---: | :---: | :---:  |  :---: | :---: | :---: | :---: |
+| <img width="150" src="http://qmplusimg.henrongyi.top/qrjjz.png"> | <img width="150" src="http://qmplusimg.henrongyi.top/qryx.png"> | <img width="150" src="http://qmplusimg.henrongyi.top/qryr.png"> | <img width="150" src="http://qmplusimg.henrongyi.top/qrdjl.png"> | <img width="150" src="http://qmplusimg.henrongyi.top/qrygl.png"> | <img width="150" src="http://qmplusimg.henrongyi.top/qrsong.png"> | <img src="../Images/index/image-20200803170441708.png" alt="image-20200803170441708" style="zoom:17%;" /> | <img src="../Images/index/image-20200803181537723.png" alt="image-20200803181537723" style="zoom:20%;" /> |
 
 |  昵称   | 项目职务  | 姓  |
 |  ----  | ----  | ----  |
@@ -16,5 +16,5 @@
 | [@krank666](https://github.com/krank666)  | 前端开发 | 尹 |
 | [@chen-chen-up](https://github.com/chen-chen-up)  | 新手开发 | 宋 |
 | [@SliverHorn](https://github.com/SliverHorn)  | 社区管理员 | 赖 |
-| [@LLemonGreen](https://github.com/orgs/flipped-aurora/people/LLemonGreen) |  |  |
+| [@LLemonGreen](https://github.com/orgs/flipped-aurora/people/LLemonGreen) | 文档编纂员 | 卢 |
 
