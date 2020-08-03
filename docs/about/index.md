@@ -1,9 +1,6 @@
 <div align=center>
 <h1>FLIPPED-AURORA</h1>
 </div>
-
-## 组织github地址: [点我](https://github.com/flipped-aurora)
-
 ## 项目组成员
 
 | 蒋 | 尹 | 严 | 杜 | 印 | 宋 | 赖 |  |
