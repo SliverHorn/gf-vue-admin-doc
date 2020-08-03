@@ -99,10 +99,38 @@
             
             
             
+            
+            
+                
+                <li >
+                    <a href="directory/">
+                      目录结构
+                    </a>
+                </li>
+                
+            
+            
+            
+            
+            
+                
+                <li >
+                    <a href="config/">
+                      配置文件
+                    </a>
+                </li>
+                
+            
+            
+            
             </ul>
 
             <!-- Search, Navigation and Repo links -->
             <ul class="nav navbar-nav navbar-right">
+            
+            
+            
+            
             
             
             
@@ -131,266 +159,105 @@
         <div class="container">
             <div class="col-md-3">
   
+<div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+    
+        <li class="main active"><a href="#gfva">GFVA小白说明书</a></li>
+        
+            <li><a href="#1">1. 目录结构</a></li>
+        
+            <li><a href="#2">2. 实战操作</a></li>
+        
+            <li><a href="#3">3.前端项目</a></li>
+        
+            <li><a href="#4">4.后端项目</a></li>
+        
+    
+    </ul>
+</div>
+  
 </div>
             <div class="col-md-9" role="main">
 
 <h1 id="gfva">GFVA小白说明书</h1>
-<h2 id="1">1. 项目的目录结构</h2>
-<h3 id="11-web">1.1 web</h3>
-<h4 id="111-web">1.1.1 web目录结构</h4>
-<pre><code class="bash">└─web
-  ├── public
-  └── src
-      ├── api
-      ├── assets
-      ├── components
-      ├── directive
-      ├── router
-      ├── store
-      ├── style
-      ├── utils
-      └── view
-</code></pre>
-
-<h4 id="112-web">1.1.2 web目录结构详解</h4>
+<h2 id="1">1. <a href="./directory/">目录结构</a></h2>
+<h2 id="2">2. 实战操作</h2>
+<blockquote>
+<p>本项目的编程环境</p>
+</blockquote>
 <table>
 <thead>
 <tr>
-<th align="left">目录/文件名称</th>
-<th align="left">说明</th>
-<th align="left">描述</th>
+<th></th>
+<th>推荐</th>
+<th>开发环境(指的是开发此项目的开发环境)</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td align="left">public</td>
-<td align="left">发布模板</td>
-<td align="left"></td>
+<td><a href="https://golang.google.cn/dl/">Golang</a></td>
+<td>1.11</td>
+<td>1.14.4</td>
 </tr>
 <tr>
-<td align="left">src</td>
-<td align="left">源码包</td>
-<td align="left"></td>
+<td><a href="https://www.mysql.com/">MySQL</a></td>
+<td>8.0</td>
+<td>8.0.19</td>
 </tr>
 <tr>
-<td align="left">- api</td>
-<td align="left">向后台发送ajax的封装层</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left">- assets</td>
-<td align="left">静态文件</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left">- components</td>
-<td align="left">组件</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left">- router</td>
-<td align="left">前端路由</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left">- store</td>
-<td align="left">vuex 状态管理仓</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left">- style</td>
-<td align="left">通用样式文件</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left">- utils</td>
-<td align="left">前端工具库</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left">- view</td>
-<td align="left">前端页面</td>
-<td align="left"></td>
+<td><a href="https://nodejs.org/zh-cn/download/">nodejs</a></td>
+<td>最新的LTS</td>
+<td>12.16.1</td>
 </tr>
 </tbody>
 </table>
-<h3 id="1-2-server">1. 2 server</h3>
-<h4 id="121">1.2.1 目录结构</h4>
-<pre><code class="shell">├── app
-│   ├── api
-│   │   ├── request
-│   │   ├── response
-│   │   └── v1
-│   ├── middleware
-│   ├── model
-│   └── service
-├── boot
-├── config
-├── document
-├── library
-│   ├── gdbadapter
-│   ├── global
-│   └── utils
-├── logs
-│   ├── log
-│   ├── server
-│   └── sql
-├── packed
-├── public
-├── router
-└── template
-├── Dockerfile
-├── go.mod
-└── main.go
+<h3 id="21">2.1 下载或克隆项目</h3>
+<pre><code class="shell">git clone https://github.com/flipped-aurora/gf-vue-admin.git
 </code></pre>
 
-<h3 id="server">server目录结构详解</h3>
-<table>
-<thead>
-<tr>
-<th align="left">目录/文件名称</th>
-<th align="left">说明</th>
-<th align="left">描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="left"><code>app</code></td>
-<td align="left">业务逻辑层</td>
-<td align="left">所有的业务逻辑存放目录。</td>
-</tr>
-<tr>
-<td align="left">- <code>api</code></td>
-<td align="left">业务接口</td>
-<td align="left">接收/解析用户输入参数的入口/接口层。</td>
-</tr>
-<tr>
-<td align="left">--<code>request</code></td>
-<td align="left">入参结构体</td>
-<td align="left">接收前端发送到后端的数据。</td>
-</tr>
-<tr>
-<td align="left">--<code>response</code></td>
-<td align="left">出参结构体</td>
-<td align="left">返回给前端的数据结构体</td>
-</tr>
-<tr>
-<td align="left">--v1</td>
-<td align="left">api层</td>
-<td align="left">api层v1版本代码</td>
-</tr>
-<tr>
-<td align="left">-<code>middleware</code></td>
-<td align="left">中间件</td>
-<td align="left">用于路由层的中间件存放文件夹</td>
-</tr>
-<tr>
-<td align="left">- <code>model</code></td>
-<td align="left">数据模型</td>
-<td align="left">数据管理层，仅用于操作管理数据，如数据库操作。</td>
-</tr>
-<tr>
-<td align="left">- <code>service</code></td>
-<td align="left">逻辑封装</td>
-<td align="left">业务逻辑封装层，实现特定的业务需求，可供不同的包调用。</td>
-</tr>
-<tr>
-<td align="left"><code>boot</code></td>
-<td align="left">初始化包</td>
-<td align="left">用于项目初始化参数设置，往往作为<code>main.go</code>中第一个被<code>import</code>的包。</td>
-</tr>
-<tr>
-<td align="left"><code>config</code></td>
-<td align="left">配置管理</td>
-<td align="left">所有的配置文件存放目录。</td>
-</tr>
-<tr>
-<td align="left"><code>docker</code></td>
-<td align="left">镜像文件</td>
-<td align="left">Docker镜像相关依赖文件，脚本文件等等。</td>
-</tr>
-<tr>
-<td align="left"><code>document</code></td>
-<td align="left">项目文档</td>
-<td align="left">Documentation项目文档，如: 设计文档、帮助文档等等。</td>
-</tr>
-<tr>
-<td align="left"><code>library</code></td>
-<td align="left">公共库包</td>
-<td align="left">公共的功能封装包，往往不包含业务需求实现。</td>
-</tr>
-<tr>
-<td align="left">-<code>gdbadapter</code></td>
-<td align="left">gdb适配器</td>
-<td align="left">GoFrame适配器工具类</td>
-</tr>
-<tr>
-<td align="left">-<code>global</code></td>
-<td align="left">json返回封装</td>
-<td align="left">json返回web端的统一封装</td>
-</tr>
-<tr>
-<td align="left">- <code>utils</code></td>
-<td align="left">工具类</td>
-<td align="left">一些常用的工具类封装</td>
-</tr>
-<tr>
-<td align="left"><code>logs</code></td>
-<td align="left">glog日志</td>
-<td align="left">glog会自行判断是否存在此目录,无会自动创建</td>
-</tr>
-<tr>
-<td align="left">-<code>log</code></td>
-<td align="left">普通日志</td>
-<td align="left">普通日志</td>
-</tr>
-<tr>
-<td align="left">-<code>server</code></td>
-<td align="left">服务器日志</td>
-<td align="left">server日志</td>
-</tr>
-<tr>
-<td align="left">-<code>sql</code></td>
-<td align="left">数据库日志</td>
-<td align="left">mysqlor...的sql日志存放的地方</td>
-</tr>
-<tr>
-<td align="left"><code>packed</code></td>
-<td align="left">打包目录</td>
-<td align="left">将资源文件打包的<code>Go</code>文件存放在这里，<code>boot</code>包初始化时会自动调用。</td>
-</tr>
-<tr>
-<td align="left"><code>public</code></td>
-<td align="left">静态目录</td>
-<td align="left">仅有该目录下的文件才能对外提供静态服务访问。</td>
-</tr>
-<tr>
-<td align="left"><code>router</code></td>
-<td align="left">路由注册</td>
-<td align="left">用于路由统一的注册管理。</td>
-</tr>
-<tr>
-<td align="left"><code>template</code></td>
-<td align="left">模板文件</td>
-<td align="left">存放自动化代码渲染模板</td>
-</tr>
-<tr>
-<td align="left"><code>Dockerfile</code></td>
-<td align="left">镜像描述</td>
-<td align="left">云原生时代用于编译生成Docker镜像的描述文件。</td>
-</tr>
-<tr>
-<td align="left"><code>go.mod</code></td>
-<td align="left">依赖管理</td>
-<td align="left">使用<code>Go Module</code>包管理的依赖描述文件。</td>
-</tr>
-<tr>
-<td align="left"><code>main.go</code></td>
-<td align="left">入口文件</td>
-<td align="left">程序入口文件。</td>
-</tr>
-</tbody>
-</table></div>
+<h3 id="22">2.2 安装依赖</h3>
+<h4 id="221">2.2.1 前端项目下载依赖</h4>
+<pre><code class="js">// 进入web文件夹
+cd web
+// 使用npm或者cnpm进行下载依赖
+cnpm i || npm i
+</code></pre>
+
+<h4 id="222">2.2.2 后端项目下载依赖</h4>
+<pre><code class="go"># 注意不要使用gopm
+
+# 开启go module 
+go env -w GO111MODULE=on
+# 设置代理
+go env -w GOPROXY=https://goproxy.io,direct
+</code></pre>
+
+<h3 id="23">2.3 初始化</h3>
+<h4 id="231">2.3.1 数据库初始化数据</h4>
+<ol>
+<li>新建数据库,名字自取.</li>
+<li>将server/document/gf-vue-admin.sql导入到新建的数据库</li>
+</ol>
+<h4 id="232-server">2.3.2 server的配置文件</h4>
+<ol>
+<li>配置文件位于server/config</li>
+<li>按需修改config.toml文件</li>
+<li>如需详细的配置文件,<a href="./config/">点我</a></li>
+</ol>
+<h2 id="3">3.前端项目</h2>
+<ul>
+<li>前端是Vue项目</li>
+<li>使用VsCode或者WebStorm打开web文件夹</li>
+<li>使用<code>npm run serve</code>或者<code>cnpm run serve</code>即可启动项目</li>
+</ul>
+<h2 id="4">4.后端项目</h2>
+<ul>
+<li>后端是Golang项目</li>
+<li>使用VsCode(需要自行下载VsCode的go开发插件)或者Goland打开server文件夹,<code>以Goland为例进行说明</code></li>
+<li>进入GoLand的File → settings → Go → Go Modules，将 Environment 项的值设置为<code>GOPROXY=https://goproxy.io,direct</code></li>
+<li>打开server/go.mod文件,鼠标右键</li>
+<li><img alt="image-20200803145852690" src="../Images/index/image-20200803145852690.png" /></li>
+</ul></div>
         </div>
 
     <footer class="col-md-12">

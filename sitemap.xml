@@ -15,5 +15,13 @@
      <loc>https://sliverhorn.github.io/Manual/</loc>
      <lastmod>2020-08-03</lastmod>
      <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://sliverhorn.github.io/Manual/directory/</loc>
+     <lastmod>2020-08-03</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://sliverhorn.github.io/Manual/config/</loc>
+     <lastmod>2020-08-03</lastmod>
+     <changefreq>daily</changefreq>
     </url>
 </urlset>
