@@ -1,0 +1,15 @@
+site_name: gf-vue-admin在线文档
+site_author: 'SliverHorn'
+repo_name: 'gf-vue-admin-doc'
+repo_url: 'https://github.com/SliverHorn/gf-vue-admin-doc'
+
+copyright: 'Copyright &copy; 2020 - 2020 SliverHorn'
+
+# Configuration, https://gitlab.com/lramage/mkdocs-gitbook-theme
+theme:
+  name: gitbook
+
+nav:
+- 简介: 'index.md'
+- 介绍: 'Introduction/index.md'
+#    - About: about.md
