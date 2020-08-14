@@ -1,9 +1,8 @@
-
 ## 2. 配置文件详解(config.toml)
 
 ### 2.1 [server]
 
-| 配置分类 |      配置名       |     配置类型      | 英文描述                                                     | 中文描述                                                     |                 官方文档链接                 |
+| 配置分类 |      配置名       |     配置类型      | 英文描述                                                     | 中文描述                                                     |                     链接                     |
 | -------- | :---------------: | :---------------: | :----------------------------------------------------------- | :----------------------------------------------------------- | :------------------------------------------: |
 |          |                   |                   |                                                              |                                                              |                                              |
 | Basic    |      Address      |      string       | Address specifies the server listening address like "port" or ":port",multiple addresses joined using ','. | 地址指定服务器的侦听地址，例如“ port”或“：port”，使用'，'连接多个地址 |                                              |
@@ -67,6 +66,8 @@
 
 ### 2.3 [database]
 
+完整的`config.toml`数据库配置项的数据格式形如下：
+
 ```shell
 [database]
     [[database.分组名称]]
@@ -88,20 +89,106 @@
         MaxLifetime  = "(可选，单位秒)连接对象可重复使用的时间长度"
 ```
 
+`gdb`数据库管理模块的内部配置管理数据结构如下：
 
+```go
+type Config      map[string]ConfigGroup // 数据库配置对象
+type ConfigGroup []ConfigNode           // 数据库分组配置
+// 数据库配置项(一个分组配置对应多个配置项)
+type ConfigNode  struct {
+    Host             string   // 地址
+    Port             string   // 端口
+    User             string   // 账号
+    Pass             string   // 密码
+    Name             string   // 数据库名称
+    Type             string   // 数据库类型：mysql, sqlite, mssql, pgsql, oracle
+    Role             string   // (可选，默认为master)数据库的角色，用于主从操作分离，至少需要有一个master，参数值：master, slave
+    Debug            bool     // (可选)开启调试模式
+    Charset          string   // (可选，默认为 utf8)编码，默认为 utf8
+    Prefix           string   // (可选)表名前缀
+    Weight           int      // (可选)用于负载均衡的权重计算，当集群中只有一个节点时，权重没有任何意义
+    Linkinfo         string   // (可选)自定义链接信息，当该字段被设置值时，以上链接字段(Host,Port,User,Pass,Name)将失效(该字段是一个扩展功能)
+    MaxIdleConnCount int      // (可选)连接池最大闲置的连接数
+    MaxOpenConnCount int      // (可选)连接池最大打开的连接数
+    MaxConnLifetime  int      // (可选，单位秒)连接对象可重复使用的时间长度
+}
+```
+
+#### 简化配置
+
+为兼容不同的数据库类型，`gdb`将数据库的各个字段拆分出来单独配置，这样对于各种数据库的对接来说兼容性会很好。但是对于开发者来说看起来配置比较多。针对于项目中使用的已确定的数据库类型的配置，我们可以使用`linkinfo`属性（名称也可以简化为`link`）进行配置。如：
+
+```go
+[database]
+    [[database.default]]
+        type = "mysql"
+        link = "root:12345678@tcp(127.0.0.1:3306)/test"
+    [[database.user]]
+        type = "mysql"
+        link = "mysql:root:12345678@tcp(127.0.0.1:3306)/user"
+```
+
+也可以简化为：
+
+```go
+[database]
+    [[database.default]]
+        link = "mysql:root:12345678@tcp(127.0.0.1:3306)/test"
+    [[database.user]]
+        link = "mysql:root:12345678@tcp(127.0.0.1:3306)/user"
+```
+
+不同数据类型对应的`linkinfo`如下:
+
+| 数据库类型 | Linkinfo配置                                                 | 更多参数                                               |
+| ---------- | ------------------------------------------------------------ | ------------------------------------------------------ |
+| mysql      | `mysql: 账号:密码@tcp(地址:端口)/数据库名称`                 | [mysql](https://github.com/go-sql-driver/mysql)        |
+| pgsql      | `pgsql: user=账号 password=密码 host=地址 port=端口 dbname=数据库名称` | [pq](https://github.com/lib/pq)                        |
+| mssql      | `mssql: user id=账号;password=密码;server=地址;port=端口;database=数据库名称;encrypt=disable` | [go-mssqldb](https://github.com/denisenkom/go-mssqldb) |
+| sqlite     | `sqlite: 文件绝对路径` (如: `/var/lib/db.sqlite3`)           | [go-sqlite3](https://github.com/mattn/go-sqlite3)      |
+| oracle     | `oracle: 账号/密码@地址:端口/数据库名称`                     | [go-oci8](https://github.com/mattn/go-oci8)            |
 
 ### 2.4 [redis]
 
+#### 官方推荐配置
 
+推荐使用配置文件来管理Redis配置，在`config.toml`中的配置示例如下：
 
-| 配置项名称      | 是否必须 | 默认值 | 说明                                   |
-| :-------------- | -------- | ------ | -------------------------------------- |
-| host            | 是       | -      | 地址                                   |
-| port            | 是       | -      | 端口                                   |
-| db              | 否       | 0      | 数据库                                 |
-| pass            | 否       | -      | 授权密码                               |
-| maxIdle         | 否       | 0      | 允许限制的连接数(0表示不闲置)          |
-| maxActive       | 否       | 0      | 最大连接数量限制(0表示不限制)          |
-| idleTimeout     | 否       | 60     | 连接最大空闲时间(单位秒,不允许设置为0) |
-| maxConnLifetime | 否       | 60     | 连接最长存活时间(单位秒,不允许设置为0) |
+```go
+# Redis数据库配置
+[redis]
+	# Redis的配置格式host:port[,db,pass?maxIdle=x&maxActive=x&idleTimeout=x&maxConnLifetime=x]
+    default = "127.0.0.1:6379,0"
+    cache   = "127.0.0.1:6379,1,123456?idleTimeout=600"
+```
+
+各配置项说明如下：
+
+| 配置项名称      | 类型          | 是否必须 | 默认值 | 说明                                   |
+| :-------------- | ------------- | -------- | ------ | -------------------------------------- |
+| host            | string        | 是       | -      | 地址                                   |
+| port            | int           | 是       | -      | 端口                                   |
+| db              | int           | 否       | 0      | 数据库                                 |
+| pass            | string        | 否       | -      | 授权密码                               |
+| maxIdle         | int           | 否       | 0      | 允许限制的连接数(0表示不闲置)          |
+| maxActive       | int           | 否       | 0      | 最大连接数量限制(0表示不限制)          |
+| idleTimeout     | time.Duration | 否       | 60     | 连接最大空闲时间(单位秒,不允许设置为0) |
+| maxConnLifetime | time.Duration | 否       | 60     | 连接最长存活时间(单位秒,不允许设置为0) |
+
+`gredis`数据库管理模块的内部配置管理数据结构如下：
+
+```go
+// Redis configuration.
+type Config struct {
+	Host            string
+	Port            int
+	Db              int
+	Pass            string        // Password for AUTH.
+	MaxIdle         int           // Maximum number of connections allowed to be idle (default is 10)
+	MaxActive       int           // Maximum number of connections limit (default is 0 means no limit).
+	IdleTimeout     time.Duration // Maximum idle time for connection (default is 10 seconds, not allowed to be set to 0)
+	MaxConnLifetime time.Duration // Maximum lifetime of the connection (default is 30 seconds, not allowed to be set to 0)
+	ConnectTimeout  time.Duration // Dial connection timeout.
+}
+```
 

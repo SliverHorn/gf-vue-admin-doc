@@ -8,6 +8,7 @@ lunr==0.5.8
 Markdown==3.2.2
 MarkupSafe==1.1.1
 mkdocs==1.1.2
+mkdocs-cluster==0.0.9
 nltk==3.5
 PyYAML==5.3.1
 regex==2020.7.14
