@@ -245,7 +245,7 @@
 <th align="center">配置类型</th>
 <th align="left">英文描述</th>
 <th align="left">中文描述</th>
-<th align="center">官方文档链接</th>
+<th align="center">链接</th>
 </tr>
 </thead>
 <tbody>
@@ -687,6 +687,7 @@
 </tbody>
 </table>
 <h3 id="23-database">2.3 [database]</h3>
+<p>完整的<code>config.toml</code>数据库配置项的数据格式形如下：</p>
 <pre><code class="shell">[database]
     [[database.分组名称]]
         Host         = &quot;地址&quot;
@@ -707,11 +708,101 @@
         MaxLifetime  = &quot;(可选，单位秒)连接对象可重复使用的时间长度&quot;
 </code></pre>
 
+<p><code>gdb</code>数据库管理模块的内部配置管理数据结构如下：</p>
+<pre><code class="go">type Config      map[string]ConfigGroup // 数据库配置对象
+type ConfigGroup []ConfigNode           // 数据库分组配置
+// 数据库配置项(一个分组配置对应多个配置项)
+type ConfigNode  struct {
+    Host             string   // 地址
+    Port             string   // 端口
+    User             string   // 账号
+    Pass             string   // 密码
+    Name             string   // 数据库名称
+    Type             string   // 数据库类型：mysql, sqlite, mssql, pgsql, oracle
+    Role             string   // (可选，默认为master)数据库的角色，用于主从操作分离，至少需要有一个master，参数值：master, slave
+    Debug            bool     // (可选)开启调试模式
+    Charset          string   // (可选，默认为 utf8)编码，默认为 utf8
+    Prefix           string   // (可选)表名前缀
+    Weight           int      // (可选)用于负载均衡的权重计算，当集群中只有一个节点时，权重没有任何意义
+    Linkinfo         string   // (可选)自定义链接信息，当该字段被设置值时，以上链接字段(Host,Port,User,Pass,Name)将失效(该字段是一个扩展功能)
+    MaxIdleConnCount int      // (可选)连接池最大闲置的连接数
+    MaxOpenConnCount int      // (可选)连接池最大打开的连接数
+    MaxConnLifetime  int      // (可选，单位秒)连接对象可重复使用的时间长度
+}
+</code></pre>
+
+<h4 id="_1">简化配置</h4>
+<p>为兼容不同的数据库类型，<code>gdb</code>将数据库的各个字段拆分出来单独配置，这样对于各种数据库的对接来说兼容性会很好。但是对于开发者来说看起来配置比较多。针对于项目中使用的已确定的数据库类型的配置，我们可以使用<code>linkinfo</code>属性（名称也可以简化为<code>link</code>）进行配置。如：</p>
+<pre><code class="go">[database]
+    [[database.default]]
+        type = &quot;mysql&quot;
+        link = &quot;root:12345678@tcp(127.0.0.1:3306)/test&quot;
+    [[database.user]]
+        type = &quot;mysql&quot;
+        link = &quot;mysql:root:12345678@tcp(127.0.0.1:3306)/user&quot;
+</code></pre>
+
+<p>也可以简化为：</p>
+<pre><code class="go">[database]
+    [[database.default]]
+        link = &quot;mysql:root:12345678@tcp(127.0.0.1:3306)/test&quot;
+    [[database.user]]
+        link = &quot;mysql:root:12345678@tcp(127.0.0.1:3306)/user&quot;
+</code></pre>
+
+<p>不同数据类型对应的<code>linkinfo</code>如下:</p>
+<table>
+<thead>
+<tr>
+<th>数据库类型</th>
+<th>Linkinfo配置</th>
+<th>更多参数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>mysql</td>
+<td><code>mysql: 账号:密码@tcp(地址:端口)/数据库名称</code></td>
+<td><a href="https://github.com/go-sql-driver/mysql">mysql</a></td>
+</tr>
+<tr>
+<td>pgsql</td>
+<td><code>pgsql: user=账号 password=密码 host=地址 port=端口 dbname=数据库名称</code></td>
+<td><a href="https://github.com/lib/pq">pq</a></td>
+</tr>
+<tr>
+<td>mssql</td>
+<td><code>mssql: user id=账号;password=密码;server=地址;port=端口;database=数据库名称;encrypt=disable</code></td>
+<td><a href="https://github.com/denisenkom/go-mssqldb">go-mssqldb</a></td>
+</tr>
+<tr>
+<td>sqlite</td>
+<td><code>sqlite: 文件绝对路径</code> (如: <code>/var/lib/db.sqlite3</code>)</td>
+<td><a href="https://github.com/mattn/go-sqlite3">go-sqlite3</a></td>
+</tr>
+<tr>
+<td>oracle</td>
+<td><code>oracle: 账号/密码@地址:端口/数据库名称</code></td>
+<td><a href="https://github.com/mattn/go-oci8">go-oci8</a></td>
+</tr>
+</tbody>
+</table>
 <h3 id="24-redis">2.4 [redis]</h3>
+<h4 id="_2">官方推荐配置</h4>
+<p>推荐使用配置文件来管理Redis配置，在<code>config.toml</code>中的配置示例如下：</p>
+<pre><code class="go"># Redis数据库配置
+[redis]
+    # Redis的配置格式host:port[,db,pass?maxIdle=x&amp;maxActive=x&amp;idleTimeout=x&amp;maxConnLifetime=x]
+    default = &quot;127.0.0.1:6379,0&quot;
+    cache   = &quot;127.0.0.1:6379,1,123456?idleTimeout=600&quot;
+</code></pre>
+
+<p>各配置项说明如下：</p>
 <table>
 <thead>
 <tr>
 <th align="left">配置项名称</th>
+<th>类型</th>
 <th>是否必须</th>
 <th>默认值</th>
 <th>说明</th>
@@ -720,54 +811,76 @@
 <tbody>
 <tr>
 <td align="left">host</td>
+<td>string</td>
 <td>是</td>
 <td>-</td>
 <td>地址</td>
 </tr>
 <tr>
 <td align="left">port</td>
+<td>int</td>
 <td>是</td>
 <td>-</td>
 <td>端口</td>
 </tr>
 <tr>
 <td align="left">db</td>
+<td>int</td>
 <td>否</td>
 <td>0</td>
 <td>数据库</td>
 </tr>
 <tr>
 <td align="left">pass</td>
+<td>string</td>
 <td>否</td>
 <td>-</td>
 <td>授权密码</td>
 </tr>
 <tr>
 <td align="left">maxIdle</td>
+<td>int</td>
 <td>否</td>
 <td>0</td>
 <td>允许限制的连接数(0表示不闲置)</td>
 </tr>
 <tr>
 <td align="left">maxActive</td>
+<td>int</td>
 <td>否</td>
 <td>0</td>
 <td>最大连接数量限制(0表示不限制)</td>
 </tr>
 <tr>
 <td align="left">idleTimeout</td>
+<td>time.Duration</td>
 <td>否</td>
 <td>60</td>
 <td>连接最大空闲时间(单位秒,不允许设置为0)</td>
 </tr>
 <tr>
 <td align="left">maxConnLifetime</td>
+<td>time.Duration</td>
 <td>否</td>
 <td>60</td>
 <td>连接最长存活时间(单位秒,不允许设置为0)</td>
 </tr>
 </tbody>
-</table></div>
+</table>
+<p><code>gredis</code>数据库管理模块的内部配置管理数据结构如下：</p>
+<pre><code class="go">// Redis configuration.
+type Config struct {
+    Host            string
+    Port            int
+    Db              int
+    Pass            string        // Password for AUTH.
+    MaxIdle         int           // Maximum number of connections allowed to be idle (default is 10)
+    MaxActive       int           // Maximum number of connections limit (default is 0 means no limit).
+    IdleTimeout     time.Duration // Maximum idle time for connection (default is 10 seconds, not allowed to be set to 0)
+    MaxConnLifetime time.Duration // Maximum lifetime of the connection (default is 30 seconds, not allowed to be set to 0)
+    ConnectTimeout  time.Duration // Dial connection timeout.
+}
+</code></pre></div>
         </div>
 
     <footer class="col-md-12">
