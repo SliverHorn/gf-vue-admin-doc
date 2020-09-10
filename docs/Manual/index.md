@@ -45,7 +45,8 @@ go env -w GOPROXY=https://goproxy.io,direct
 #### 2.3.1 数据库初始化数据
 
 1. 新建数据库,名字自取.
-2. 将server/document/gf-vue-admin.sql导入到新建的数据库
+2. 在配置文件里进行数据库的配置
+3. 打开server/main.go的boot.InitializeDataTableAndData()函数即可初始化数据表与数据
 
 #### 2.3.2 server的配置文件
 
