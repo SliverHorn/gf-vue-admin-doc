@@ -10,7 +10,7 @@ MarkupSafe==1.1.1
 mkdocs==1.1.2
 mkdocs-cluster==0.0.9
 nltk==3.5
-PyYAML==5.3.1
+PyYAML==5.4
 regex==2020.7.14
 six==1.15.0
 tornado==6.0.4
